@@ -1,7 +1,9 @@
 plugins {
 	id 'java'
+	id 'idea'
 	id 'org.springframework.boot' version '3.1.0'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.flywaydb.flyway' version '9.11.0'
 }
 
 group = 'com.wisercat.backend'
@@ -20,13 +22,21 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	compileOnly 'org.hibernate:hibernate-jpamodelgen:6.2.1.Final'
+	annotationProcessor 'org.hibernate:hibernate-jpamodelgen:6.2.1.Final'
+
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	implementation 'org.flywaydb:flyway-core'
+	runtimeOnly 'org.postgresql:postgresql'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

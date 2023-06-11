@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: wisercat-backend
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  datasource:
+    url: jdbc:postgresql://localhost:5032/backend
+    username: backend
+    password: backend
+  flyway:
+    enabled: true
+    locations: 'classpath:db/migration'
+    placeholder-replacement: false
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+
+#wisercat-backend:
+#  system:
+#    name: wisercat-backend
+#  frontend:
+#    url: http://localhost:5173
+#  security:
+#    cors:
+#      allowed-origins: http://localhost:5173
