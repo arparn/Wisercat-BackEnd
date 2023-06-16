@@ -1,4 +1,6 @@
 server:
+  servlet:
+    context-path: /dev
   port: 8080
 
 spring:
@@ -23,11 +25,7 @@ spring:
     hibernate:
       ddl-auto: none
 
-#wisercat-backend:
-#  system:
-#    name: wisercat-backend
-#  frontend:
-#    url: http://localhost:5173
-#  security:
-#    cors:
-#      allowed-origins: http://localhost:5173
+wisercat-backend:
+  security:
+    cors:
+      allowed-origins: http://localhost:5173

@@ -2,6 +2,9 @@ package com.wisercat.backend.controller;
 
 import com.wisercat.backend.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,5 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class PersonController {
 
 	private final PersonService personService;
+
+	@GetMapping
+	public ResponseEntity<String> getPerson() {
+		return new ResponseEntity<>(personService.getPerson(), HttpStatus.OK);
+	}
 
 }
