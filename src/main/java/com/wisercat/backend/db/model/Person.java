@@ -1,4 +1,4 @@
-package com.wisercat.backend.model;
+package com.wisercat.backend.db.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,4 +27,7 @@ public class Person {
 
 	@Column(name = "name")
 	private String name;
+
+	@Column(name = "age")
+	private Integer age;
 }

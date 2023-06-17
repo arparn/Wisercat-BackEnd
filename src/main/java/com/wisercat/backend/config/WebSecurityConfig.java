@@ -35,7 +35,7 @@ public class WebSecurityConfig {
 			.cors().configurationSource((request -> corsConfiguration())).and()
 			.csrf().disable()
 			.authorizeHttpRequests(auth ->
-				auth.requestMatchers(GET,"/person").permitAll()
+				auth.requestMatchers(GET,"/person/**").permitAll()
 			).sessionManagement().sessionCreationPolicy(STATELESS);
 		return httpSecurity.build();
 	}
