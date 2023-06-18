@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("person")
+@RequestMapping("/people")
 @RequiredArgsConstructor
 public class PersonController {
 
 	private final PersonService personService;
 
 	@GetMapping("/filter")
-	public Page<PersonDto> getPerson(@Valid PersonFilterRequest personFilterRequest,
-	                                 @Valid PaginationRequest paginationRequest) {
+	public Page<PersonDto> filterPerson(@Valid PersonFilterRequest personFilterRequest,
+	                                    @Valid PaginationRequest paginationRequest) {
 		return personService.filter(PersonFilter.from(personFilterRequest, paginationRequest));
 	}
 

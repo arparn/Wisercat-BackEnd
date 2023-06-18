@@ -12,7 +12,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static java.util.Calendar.YEAR;
 
 @AllArgsConstructor
 public class PersonQuery implements Specification<Person> {
@@ -30,12 +34,20 @@ public class PersonQuery implements Specification<Person> {
 		List<Predicate> predicates = new ArrayList<>();
 
 		if (filter.getAge() != null) {
+			Date date = new Date();
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			calendar.add(YEAR, filter.getAge() * (-1));
+
+			Date requestedBirthDate = calendar.getTime();
+
 			switch (filter.getAgeComparator()) {
-				case LESS -> predicates.add(criteriaBuilder.lessThan(root.get(Person_.AGE), filter.getAge()));
-				case LESS_OR_EQUAL -> predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(Person_.AGE), filter.getAge()));
-				case GREATER -> predicates.add(criteriaBuilder.greaterThan(root.get(Person_.AGE), filter.getAge()));
-				case GREATER_OR_EQUAL -> predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(Person_.AGE), filter.getAge()));
-				case EQUAL -> predicates.add(criteriaBuilder.equal(root.get(Person_.AGE), filter.getAge()));
+				case LESS -> predicates.add(criteriaBuilder.greaterThan(root.get(Person_.BIRTH_DATE), requestedBirthDate));
+				case LESS_OR_EQUAL -> predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(Person_.BIRTH_DATE), requestedBirthDate));
+				case GREATER -> predicates.add(criteriaBuilder.lessThan(root.get(Person_.BIRTH_DATE), requestedBirthDate));
+				case GREATER_OR_EQUAL -> predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(Person_.BIRTH_DATE), requestedBirthDate));
+				case EQUAL -> predicates.add(criteriaBuilder.equal(criteriaBuilder.function("get_year", Integer.class, root.get(Person_.BIRTH_DATE)), calendar.get(YEAR)));
 				default -> throw new PredicateException("Error creating predicate: Invalid age comparator");
 			}
 		}
