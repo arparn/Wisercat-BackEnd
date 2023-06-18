@@ -21,6 +21,8 @@ import static java.util.Calendar.YEAR;
 @AllArgsConstructor
 public class PersonQuery implements Specification<Person> {
 
+	private static final String GET_YEAR = "get_year";
+
 	private static final String LESS = "less";
 	private static final String LESS_OR_EQUAL = "less-or-equal";
 	private static final String GREATER = "greater";
@@ -40,14 +42,14 @@ public class PersonQuery implements Specification<Person> {
 			calendar.setTime(date);
 			calendar.add(YEAR, filter.getAge() * (-1));
 
-			Date requestedBirthDate = calendar.getTime();
+			int requestedBirthYear = calendar.get(YEAR);
 
 			switch (filter.getAgeComparator()) {
-				case LESS -> predicates.add(criteriaBuilder.greaterThan(root.get(Person_.BIRTH_DATE), requestedBirthDate));
-				case LESS_OR_EQUAL -> predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(Person_.BIRTH_DATE), requestedBirthDate));
-				case GREATER -> predicates.add(criteriaBuilder.lessThan(root.get(Person_.BIRTH_DATE), requestedBirthDate));
-				case GREATER_OR_EQUAL -> predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(Person_.BIRTH_DATE), requestedBirthDate));
-				case EQUAL -> predicates.add(criteriaBuilder.equal(criteriaBuilder.function("get_year", Integer.class, root.get(Person_.BIRTH_DATE)), calendar.get(YEAR)));
+				case LESS -> predicates.add(criteriaBuilder.greaterThan(criteriaBuilder.function(GET_YEAR, Integer.class, root.get(Person_.BIRTH_DATE)), requestedBirthYear));
+				case LESS_OR_EQUAL -> predicates.add(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.function(GET_YEAR, Integer.class, root.get(Person_.BIRTH_DATE)), requestedBirthYear));
+				case GREATER -> predicates.add(criteriaBuilder.lessThan(criteriaBuilder.function(GET_YEAR, Integer.class, root.get(Person_.BIRTH_DATE)), requestedBirthYear));
+				case GREATER_OR_EQUAL -> predicates.add(criteriaBuilder.lessThanOrEqualTo(criteriaBuilder.function(GET_YEAR, Integer.class, root.get(Person_.BIRTH_DATE)), requestedBirthYear));
+				case EQUAL -> predicates.add(criteriaBuilder.equal(criteriaBuilder.function(GET_YEAR, Integer.class, root.get(Person_.BIRTH_DATE)), requestedBirthYear));
 				default -> throw new PredicateException("Error creating predicate: Invalid age comparator");
 			}
 		}
