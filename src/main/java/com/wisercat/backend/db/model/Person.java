@@ -41,19 +41,22 @@ public class Person {
 
 	@Transient
 	public int getAge() {
-		Calendar a = getCalendar(birthDate);
-		Calendar b = getCalendar(new Date());
-		int diff = b.get(YEAR) - a.get(YEAR);
-		if (a.get(MONTH) > b.get(MONTH) ||
-		    (a.get(MONTH) == b.get(MONTH) && a.get(DATE) > b.get(DATE))) {
+		Calendar personBirthDate = getCalendar(birthDate);
+		Calendar currentDate = getCalendar(new Date());
+		int diff = currentDate.get(YEAR) - personBirthDate.get(YEAR);
+
+		if (personBirthDate.get(MONTH) > currentDate.get(MONTH) ||
+		    (personBirthDate.get(MONTH) == currentDate.get(MONTH) && personBirthDate.get(DATE) > currentDate.get(DATE))) {
 			diff--;
 		}
+
 		return diff;
 	}
 
 	private Calendar getCalendar(Date date) {
-		Calendar cal = Calendar.getInstance(Locale.US);
-		cal.setTime(date);
-		return cal;
+		Calendar calendar = Calendar.getInstance(Locale.US);
+		calendar.setTime(date);
+
+		return calendar;
 	}
 }
