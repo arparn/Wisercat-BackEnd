@@ -3,6 +3,8 @@ package com.wisercat.backend.dto.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 public class PersonDto {
@@ -11,5 +13,5 @@ public class PersonDto {
 
 	private Integer age;
 
-	private String birthDate;
+	private Date birthDate;
 }
