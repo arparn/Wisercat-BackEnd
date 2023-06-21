@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,11 +24,15 @@ public class PersonQuery implements Specification<Person> {
 
 	private static final String GET_YEAR = "get_year";
 
-	private static final String LESS = "less";
-	private static final String LESS_OR_EQUAL = "less-or-equal";
-	private static final String GREATER = "greater";
-	private static final String GREATER_OR_EQUAL = "greater-or-equal";
-	private static final String EQUAL = "equal";
+	private static final String LESS = "LESS";
+	private static final String LESS_OR_EQUAL = "LESS_OR_EQUAL";
+	private static final String GREATER = "GREATER";
+	private static final String GREATER_OR_EQUAL = "GREATER_OR_EQUAL";
+	private static final String EQUAL = "EQUAL";
+	private static final String CONTAINS = "CONTAINS";
+	private static final String FROM = "FROM";
+	private static final String TO = "TO";
+	private static final String ON = "ON";
 
 	private final PersonFilter filter;
 
@@ -55,8 +60,11 @@ public class PersonQuery implements Specification<Person> {
 		}
 
 		if (filter.getName() != null) {
+			// TODO add name criteria check
 			predicates.add(criteriaBuilder.like(root.get(Person_.NAME), "%" + filter.getName() + "%"));
 		}
+
+		// TODO add date predicates
 
 		return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 	}
