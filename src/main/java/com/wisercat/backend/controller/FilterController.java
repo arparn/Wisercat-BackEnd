@@ -1,7 +1,6 @@
 package com.wisercat.backend.controller;
 
 import com.wisercat.backend.dto.model.FilterDto;
-import com.wisercat.backend.dto.web.FilterRequest;
 import com.wisercat.backend.service.FilterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class FilterController {
 	}
 
 	@PostMapping
-	public void saveFilter(@Valid FilterRequest request) {
+	public void saveFilter(@Valid FilterDto request) {
 		filterService.save(request);
 	}
 }

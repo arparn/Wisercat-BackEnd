@@ -1,6 +1,5 @@
 package com.wisercat.backend.dto.model;
 
-import com.wisercat.backend.db.model.SubFilter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,5 +9,7 @@ import java.util.List;
 @Getter
 public class FilterDto {
 
-	private List<SubFilter> subFilters;
+	private String name;
+
+	private List<SubFilterDto> subFilters;
 }

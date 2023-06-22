@@ -1,17 +1,23 @@
 package com.wisercat.backend.db.model;
 
+import com.wisercat.backend.db.enums.FilterCriteria;
+import com.wisercat.backend.db.enums.FilterType;
+import com.wisercat.backend.dto.model.SubFilterDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -28,9 +34,27 @@ public class SubFilter {
 	private long id;
 
 	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "filter_id")
+	@JoinColumn(name = "filter_id", nullable = false)
 	private Filter filter;
 
-	@Column(name = "filter_parameter")
-	private String filterParameter;
+	@Enumerated(STRING)
+	@Column(name = "type", nullable = false)
+	private FilterType type;
+
+	@Enumerated(STRING)
+	@Column(name = "criteria", nullable = false)
+	private FilterCriteria criteria;
+
+	@Column(name = "value", nullable = false)
+	private String value;
+
+	@Transient
+	public static SubFilter from(Filter filter, SubFilterDto subFilterDto) {
+		return SubFilter.builder()
+			.filter(filter)
+			.type(subFilterDto.getType())
+			.criteria(subFilterDto.getCriteria())
+			.value(subFilterDto.getValue())
+			.build();
+	}
 }

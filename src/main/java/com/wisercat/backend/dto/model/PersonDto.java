@@ -11,6 +11,8 @@ public class PersonDto {
 
 	private String name;
 
+	private String surname;
+
 	private Integer age;
 
 	private Date birthDate;

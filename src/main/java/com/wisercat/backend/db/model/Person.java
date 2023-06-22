@@ -33,10 +33,13 @@ public class Person {
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "birth_date")
+	@Column(name = "surname", nullable = false)
+	private String surname;
+
+	@Column(name = "birth_date", nullable = false)
 	private Date birthDate;
 
 	@Transient

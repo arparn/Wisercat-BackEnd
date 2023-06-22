@@ -2,8 +2,8 @@ CREATE TABLE sub_filter
 (
 	id        bigserial    not null primary key,
 	filter_id bigint       not null,
-	type      varchar(255) not null check (check_filter_type(type)),
-	criteria  varchar(255) not null,
+	type      varchar(64) not null check (check_filter_type(type)),
+	criteria  varchar(64) not null,
 	value     varchar(255) not null,
 
 	constraint criteria_check check (

@@ -2,7 +2,7 @@ CREATE OR REPLACE FUNCTION check_string_criteria(IN i_criteria TEXT) RETURNS BOO
 $$
 BEGIN
 	RETURN i_criteria IN (
-	                  'EQUALS',
+	                  'EQUAL',
 	                  'CONTAINS'
 		);
 END;
