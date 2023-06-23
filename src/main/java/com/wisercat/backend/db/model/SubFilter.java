@@ -1,7 +1,6 @@
 package com.wisercat.backend.db.model;
 
 import com.wisercat.backend.db.enums.FilterCriteria;
-import com.wisercat.backend.db.enums.FilterType;
 import com.wisercat.backend.dto.model.SubFilterDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,9 +36,8 @@ public class SubFilter {
 	@JoinColumn(name = "filter_id", nullable = false)
 	private Filter filter;
 
-	@Enumerated(STRING)
-	@Column(name = "type", nullable = false)
-	private FilterType type;
+	@Column(name = "column_name", nullable = false)
+	private String column;
 
 	@Enumerated(STRING)
 	@Column(name = "criteria", nullable = false)
@@ -52,7 +50,7 @@ public class SubFilter {
 	public static SubFilter from(Filter filter, SubFilterDto subFilterDto) {
 		return SubFilter.builder()
 			.filter(filter)
-			.type(subFilterDto.getType())
+			.column(subFilterDto.getKey())
 			.criteria(subFilterDto.getCriteria())
 			.value(subFilterDto.getValue())
 			.build();

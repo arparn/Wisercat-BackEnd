@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION check_amount_criteria(IN i_criteria TEXT) RETURNS BOOLEAN AS
+CREATE OR REPLACE FUNCTION check_criteria(IN i_criteria TEXT) RETURNS BOOLEAN AS
 $$
 BEGIN
 	RETURN i_criteria IN (
@@ -6,7 +6,11 @@ BEGIN
 	                      'LESS_OR_EQUAL',
 	                      'GREATER',
 	                      'GREATER_OR_EQUAL',
-	                      'EQUAL'
+	                      'EQUAL',
+	                      'CONTAINS',
+	                      'FROM',
+	                      'TO',
+	                      'ON'
 		);
 END;
 $$ LANGUAGE plpgsql IMMUTABLE
