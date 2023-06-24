@@ -3,7 +3,7 @@ package com.wisercat.backend.service;
 import com.wisercat.backend.db.model.Person;
 import com.wisercat.backend.db.query.PersonQuery;
 import com.wisercat.backend.dto.PersonFilter;
-//import com.wisercat.backend.dto.mapper.PersonMapper;
+import com.wisercat.backend.dto.mapper.PersonMapper;
 import com.wisercat.backend.dto.model.PersonDto;
 import com.wisercat.backend.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class PersonService {
 
 	private final PersonRepository personRepository;
-	//private final PersonMapper personMapper;
+	private final PersonMapper personMapper;
 
 	@Transactional
 	public Page<PersonDto> filter(PersonFilter filter) {
 		Page<Person> page =personRepository.findAll(new PersonQuery(filter), filter.getPageable());
 
 		return new PageImpl<>(
-			null,//personMapper.convert(page.getContent()),
+			personMapper.convert(page.getContent()),
 			page.getPageable(),
 			page.getTotalElements()
 		);
