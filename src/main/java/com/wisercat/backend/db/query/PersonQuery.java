@@ -12,6 +12,8 @@ import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,11 +76,18 @@ public class PersonQuery implements Specification<Person> {
 				case NAME -> getStringPredicates(predicates, criteriaBuilder, root.get(Person_.NAME), filter.getCriteria().get(i), filter.getValues().get(i));
 				case SURNAME -> getStringPredicates(predicates, criteriaBuilder, root.get(Person_.SURNAME), filter.getCriteria().get(i), filter.getValues().get(i));
 				case BIRTH_DATE -> {
-					switch (filter.getCriteria().get(i)) {
-						case FROM -> predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(Person_.BIRTH_DATE), filter.getValues().get(i)));
-						case TO -> predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(Person_.BIRTH_DATE), filter.getValues().get(i)));
-						case ON -> predicates.add(criteriaBuilder.equal(root.get(Person_.BIRTH_DATE), filter.getValues().get(i)));
-						default -> throw new PredicateException("Failed to create predicate: Invalid birth date comparator.");
+					try {
+						Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(filter.getValues().get(i));
+
+						switch (filter.getCriteria().get(i)) {
+							case FROM -> predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(Person_.BIRTH_DATE), birthDate));
+							case TO -> predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(Person_.BIRTH_DATE), birthDate));
+							case ON -> predicates.add(criteriaBuilder.equal(root.get(Person_.BIRTH_DATE), birthDate));
+							default -> throw new PredicateException("Failed to create predicate: Invalid birth date comparator.");
+						}
+					}
+					catch (ParseException e) {
+						throw new PredicateException("Failed to create predicate: Failed to parse date. " + e);
 					}
 				}
 				default -> throw new PredicateException("Failed to create predicate: Invalid column name.");
