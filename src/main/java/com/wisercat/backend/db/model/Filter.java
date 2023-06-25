@@ -38,7 +38,7 @@ public class Filter {
 	private String name;
 
 	@Enumerated(STRING)
-	@Column(name = "filter_type", nullable = false)
+	@Column(name = "filter_type", nullable = false, updatable = false)
 	private FilterType filterType;
 
 	@OneToMany(mappedBy = "filter", fetch = LAZY, cascade = REMOVE)

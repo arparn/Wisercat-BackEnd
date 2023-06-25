@@ -4,11 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class PersonFilterRequest {
-	private Integer age;
-	private String ageComparator;
-	private String name;
+
+	private List<String> keys;
+	private List<String> criteria;
+	private List<String> values;
+
 }

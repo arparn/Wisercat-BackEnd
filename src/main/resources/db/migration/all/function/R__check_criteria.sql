@@ -8,6 +8,8 @@ BEGIN
 	                      'GREATER_OR_EQUAL',
 	                      'EQUAL',
 	                      'CONTAINS',
+	                      'STARTS_WITH',
+	                      'ENDS_WITH',
 	                      'FROM',
 	                      'TO',
 	                      'ON'

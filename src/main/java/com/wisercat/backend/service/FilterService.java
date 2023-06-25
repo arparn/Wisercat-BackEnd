@@ -1,5 +1,6 @@
 package com.wisercat.backend.service;
 
+import com.wisercat.backend.db.enums.FilterType;
 import com.wisercat.backend.db.model.SubFilter;
 import com.wisercat.backend.dto.mapper.FilterMapper;
 import com.wisercat.backend.dto.model.FilterDto;
@@ -23,17 +24,33 @@ public class FilterService {
 
 	@Transactional
 	public void save(FilterDto request) {
-		Filter filter = Filter.from(request);
-		filterRepository.save(filter);
+		Filter filter;
+
+		if (request.getId() != null) {
+			subFilterRepository.deleteAllByFilterId(request.getId());
+			filterRepository.update(request.getId(), request.getName());
+			filter = filterRepository.getReferenceById(request.getId());
+		} else {
+			filter = Filter.from(request);
+			filterRepository.save(filter);
+		}
 
 		saveSubFilters(filter, request.getSubFilters());
 	}
 
 	@Transactional
-	public List<FilterDto> get() {
-		List<Filter> filters = filterRepository.findAll();
+	public List<FilterDto> get(FilterType type) {
+		List<Filter> filters = filterRepository.findAllByFilterType(type);
 
 		return filterMapper.convert(filters);
+	}
+
+	@Transactional
+	public void delete(Long id) {
+		if (id != null) {
+			subFilterRepository.deleteAllByFilterId(id);
+			filterRepository.deleteById(id);
+		}
 	}
 
 	private void saveSubFilters(Filter filter, List<SubFilterDto> subFilterDtos) {
