@@ -28,8 +28,11 @@ public class FilterService {
 
 		if (request.getId() != null) {
 			subFilterRepository.deleteAllByFilterId(request.getId());
-			filterRepository.update(request.getId(), request.getName());
 			filter = filterRepository.getReferenceById(request.getId());
+
+			if (!filter.getName().equals(request.getName())) {
+				filterRepository.update(request.getId(), request.getName());
+			}
 		} else {
 			filter = Filter.from(request);
 			filterRepository.save(filter);
