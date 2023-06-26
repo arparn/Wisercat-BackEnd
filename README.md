@@ -1,6 +1,11 @@
 # Wisercat-BackEnd
 
-To run application:
+
+## Requirements
+* Java 17 or newer
+* Postgres
+
+##To run the application:
 
 `cd backend-database`
 
